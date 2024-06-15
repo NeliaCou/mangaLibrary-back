@@ -44,8 +44,8 @@ public class MangaController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<MangaDTO> updateManga(@PathVariable("id") Long id, @RequestBody Manga manga) {
-        Manga MangaUpdated = mangaService.updateManga(id, manga);
-        MangaDTO mangaDTO = MangaDTO.mapFromEntity(MangaUpdated);
+        Manga mangaUpdated = mangaService.updateManga(id, manga);
+        MangaDTO mangaDTO = MangaDTO.mapFromEntity(mangaUpdated);
         return new ResponseEntity<>(mangaDTO, HttpStatus.OK);
     }
 

@@ -1,8 +1,5 @@
 package com.mangalibrary.mangalibrary.manga;
 
-import com.mangalibrary.mangalibrary.library.Library;
-
-import java.util.List;
 
 public record MangaDTO(
         Long id,
