@@ -21,9 +21,9 @@ public class MangaService {
 //        return mangaRepository.findByLibraryGenre(genre);
 //    }
 //
-//    public Manga saveManga(Manga manga) {
-//        return mangaRepository.save(manga);
-//    }
+    public Manga addManga(Manga manga) {
+        return mangaRepository.save(manga);
+    }
 //
 //    public Manga updateManga(Long id, Manga manga) {
 //        Manga existingManga = mangaRepository.findById(id).orElseThrow(() -> new RuntimeException("Manga not found"));
