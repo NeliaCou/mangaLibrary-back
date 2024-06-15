@@ -18,6 +18,11 @@ public class MangaService {
         return mangaRepository.findAll();
     }
 
+    public Manga getMangaById(Long id){
+        return mangaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+    }
+
     public List<Manga> getMangasByGenre(String genre) {
         return mangaRepository.findByLibraryGenre(genre);
     }
@@ -25,15 +30,17 @@ public class MangaService {
     public Manga addManga(Manga manga) {
         return mangaRepository.save(manga);
     }
-//
-//    public Manga updateManga(Long id, Manga manga) {
-//        Manga existingManga = mangaRepository.findById(id).orElseThrow(() -> new RuntimeException("Manga not found"));
-//        existingManga.setTitle(manga.getTitle());
-//        existingManga.setAuthor(manga.getAuthor());
-//        existingManga.setDescription(manga.getDescription());
-//        return mangaRepository.save(existingManga);
-//    }
-//
+
+    public Manga updateManga(Long id, Manga manga) {
+        Manga existingManga = getMangaById(id);
+
+        existingManga.setTitle(manga.getTitle());
+        existingManga.setAuthor(manga.getAuthor());
+        existingManga.setDescription(manga.getDescription());
+
+        return mangaRepository.save(existingManga);
+    }
+
     public void deleteMangaById(Long id) {
         if(mangaRepository.findById(id).isPresent()){
             mangaRepository.deleteById(id);

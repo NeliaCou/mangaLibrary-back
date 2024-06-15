@@ -21,6 +21,13 @@ public class MangaController {
         return new ResponseEntity<>(mangaDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/get/{id}")
+    public ResponseEntity<MangaDTO> getMangaById(@PathVariable("id") Long id) {
+       Manga getManga = mangaService.getMangaById(id);
+       MangaDTO mangaDTO = MangaDTO.mapFromEntity(getManga);
+        return new ResponseEntity<>(mangaDTO, HttpStatus.OK);
+    }
+
     @GetMapping("/genre/{genre}")
     public ResponseEntity<List<MangaDTO>> getMangasByGenre(@PathVariable String genre) {
         List<Manga> mangas = mangaService.getMangasByGenre(genre);
@@ -34,12 +41,14 @@ public class MangaController {
         MangaDTO mangaDTO = MangaDTO.mapFromEntity(addedManga);
         return new ResponseEntity<>(mangaDTO, HttpStatus.OK);
     }
-//
-//    @PutMapping("/{id}")
-//    public Manga updateManga(@PathVariable Long id, @RequestBody Manga manga) {
-//        return mangaService.updateManga(id, manga);
-//    }
-//
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<MangaDTO> updateManga(@PathVariable("id") Long id, @RequestBody Manga manga) {
+        Manga MangaUpdated = mangaService.updateManga(id, manga);
+        MangaDTO mangaDTO = MangaDTO.mapFromEntity(MangaUpdated);
+        return new ResponseEntity<>(mangaDTO, HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteManga(@PathVariable("id") Long id) {
         mangaService.deleteMangaById(id);
