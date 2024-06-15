@@ -40,8 +40,9 @@ public class MangaController {
 //        return mangaService.updateManga(id, manga);
 //    }
 //
-//    @DeleteMapping("/{id}")
-//    public void deleteManga(@PathVariable Long id) {
-//        mangaService.deleteManga(id);
-//    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteManga(@PathVariable("id") Long id) {
+        mangaService.deleteMangaById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

@@ -1,6 +1,7 @@
 package com.mangalibrary.mangalibrary.manga;
 
 import com.mangalibrary.mangalibrary.library.LibraryRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +34,12 @@ public class MangaService {
 //        return mangaRepository.save(existingManga);
 //    }
 //
-//    public void deleteManga(Long id) {
-//        mangaRepository.deleteById(id);
-//    }
-
+    public void deleteMangaById(Long id) {
+        if(mangaRepository.findById(id).isPresent()){
+            mangaRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Entity with id " + id + " cannot be found");
+        }
+    }
 
 }
