@@ -1,5 +1,8 @@
 package com.mangalibrary.mangalibrary.manga;
 
+import com.mangalibrary.mangalibrary.library.Library;
+import com.mangalibrary.mangalibrary.library.LibraryRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,9 @@ public class MangaController {
 
     @Autowired
     private MangaService mangaService;
+
+    @Autowired
+    private LibraryRepository libraryRepository;
 
     @GetMapping("/get/all")
     public ResponseEntity<List<MangaDTO>> getAllMangas() {
@@ -36,7 +42,11 @@ public class MangaController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<MangaDTO> createManga(@RequestBody Manga manga) {
+    public ResponseEntity<MangaDTO> createManga(@RequestBody CreateMangaDTO createMangaDTO) {
+        Library library = libraryRepository.findById(createMangaDTO.libraryId())
+                .orElseThrow(() -> new EntityNotFoundException("Library not found"));
+
+        Manga manga = createMangaDTO.toEntity(library);
         Manga addedManga = mangaService.addManga(manga);
         MangaDTO mangaDTO = MangaDTO.mapFromEntity(addedManga);
         return new ResponseEntity<>(mangaDTO, HttpStatus.OK);
