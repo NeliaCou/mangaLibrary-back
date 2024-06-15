@@ -21,11 +21,13 @@ public class MangaController {
         return new ResponseEntity<>(mangaDTOS, HttpStatus.OK);
     }
 
-//    @GetMapping("/genre/{genre}")
-//    public List<Manga> getMangasByGenre(@PathVariable String genre) {
-//        return mangaService.getMangasByGenre(genre);
-//    }
-//
+    @GetMapping("/genre/{genre}")
+    public ResponseEntity<List<MangaDTO>> getMangasByGenre(@PathVariable String genre) {
+        List<Manga> mangas = mangaService.getMangasByGenre(genre);
+        List<MangaDTO> mangaDTOS = mangas.stream().map(MangaDTO::mapFromEntity).toList();
+        return new ResponseEntity<>(mangaDTOS, HttpStatus.OK);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<MangaDTO> createManga(@RequestBody Manga manga) {
         Manga addedManga = mangaService.addManga(manga);

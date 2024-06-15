@@ -17,10 +17,10 @@ public class MangaService {
         return mangaRepository.findAll();
     }
 
-//    public List<Manga> getMangasByGenre(String genre) {
-//        return mangaRepository.findByLibraryGenre(genre);
-//    }
-//
+    public List<Manga> getMangasByGenre(String genre) {
+        return mangaRepository.findByLibraryGenre(genre);
+    }
+
     public Manga addManga(Manga manga) {
         return mangaRepository.save(manga);
     }
