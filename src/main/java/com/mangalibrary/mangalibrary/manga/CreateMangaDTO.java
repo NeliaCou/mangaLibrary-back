@@ -5,6 +5,7 @@ import com.mangalibrary.mangalibrary.library.Library;
 public record CreateMangaDTO(
         String title,
         String author,
+        String avatar,
         String description,
         Long libraryId
 ) {

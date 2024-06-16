@@ -16,6 +16,7 @@ public class Manga {
     private Long id;
     private String title;
     private String author;
+    private String avatar;
     private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
