@@ -1,11 +1,11 @@
 package com.mangalibrary.mangalibrary.manga;
 
-import com.mangalibrary.mangalibrary.library.LibraryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class MangaService {
@@ -13,6 +13,7 @@ public class MangaService {
     @Autowired
     private MangaRepository mangaRepository;
 
+    private static final Logger logger = Logger.getLogger(MangaService.class.getName());
 
     public List<Manga> getAllMangas() {
         return mangaRepository.findAll();
@@ -27,6 +28,10 @@ public class MangaService {
         return mangaRepository.findByLibraryGenre(genre);
     }
 
+    public List<Manga> getMangasByTitle(String title) {
+        return mangaRepository.findByTitleContainingIgnoreCase(title);
+    }
+
     public Manga addManga(Manga manga) {
         return mangaRepository.save(manga);
     }
@@ -36,16 +41,17 @@ public class MangaService {
 
         existingManga.setTitle(manga.getTitle());
         existingManga.setAuthor(manga.getAuthor());
-        existingManga.setDescription(manga.getDescription());
+        existingManga.setAvatar(manga.getAvatar());
+        existingManga.setVolumeNumber(manga.getVolumeNumber());
 
         return mangaRepository.save(existingManga);
     }
 
     public void deleteMangaById(Long id) {
-        if(mangaRepository.findById(id).isPresent()){
+        if (mangaRepository.findById(id).isPresent()) {
             mangaRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Entity with id " + id + " cannot be found");
+            throw new EntityNotFoundException("Manga with id " + id + " not found");
         }
     }
 

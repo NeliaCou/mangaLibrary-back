@@ -16,9 +16,10 @@ public class Manga {
     private Long id;
     private String title;
     private String author;
-    private String description;
+    private String avatar;
+    private String volumeNumber;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "library_id")
     @JsonIgnoreProperties("mangas")
     private Library library;

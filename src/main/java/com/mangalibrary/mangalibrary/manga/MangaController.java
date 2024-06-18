@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/v1/mangas")
@@ -20,6 +21,8 @@ public class MangaController {
     @Autowired
     private LibraryRepository libraryRepository;
 
+    private static final Logger logger = Logger.getLogger(MangaController.class.getName());
+
     @GetMapping("/get/all")
     public ResponseEntity<List<MangaDTO>> getAllMangas() {
         List<Manga> mangas = mangaService.getAllMangas();
@@ -29,14 +32,21 @@ public class MangaController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity<MangaDTO> getMangaById(@PathVariable("id") Long id) {
-       Manga getManga = mangaService.getMangaById(id);
-       MangaDTO mangaDTO = MangaDTO.mapFromEntity(getManga);
+        Manga getManga = mangaService.getMangaById(id);
+        MangaDTO mangaDTO = MangaDTO.mapFromEntity(getManga);
         return new ResponseEntity<>(mangaDTO, HttpStatus.OK);
     }
 
     @GetMapping("/genre/{genre}")
     public ResponseEntity<List<MangaDTO>> getMangasByGenre(@PathVariable String genre) {
         List<Manga> mangas = mangaService.getMangasByGenre(genre);
+        List<MangaDTO> mangaDTOS = mangas.stream().map(MangaDTO::mapFromEntity).toList();
+        return new ResponseEntity<>(mangaDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/title/{title}")
+    public ResponseEntity<List<MangaDTO>> getMangasByTitle(@PathVariable String title) {
+        List<Manga> mangas = mangaService.getMangasByTitle(title);
         List<MangaDTO> mangaDTOS = mangas.stream().map(MangaDTO::mapFromEntity).toList();
         return new ResponseEntity<>(mangaDTOS, HttpStatus.OK);
     }
@@ -61,7 +71,12 @@ public class MangaController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteManga(@PathVariable("id") Long id) {
-        mangaService.deleteMangaById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            mangaService.deleteMangaById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (EntityNotFoundException e) {
+            logger.severe("Entity not found with id: " + id);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
