@@ -6,14 +6,15 @@ public record CreateMangaDTO(
         String title,
         String author,
         String avatar,
-        String description,
+        String volumeNumber,
         Long libraryId
 ) {
     public Manga toEntity(Library library) {
         Manga manga = new Manga();
         manga.setTitle(this.title);
         manga.setAuthor(this.author);
-        manga.setDescription(this.description);
+        manga.setAvatar(this.avatar);
+        manga.setVolumeNumber(this.volumeNumber);
         manga.setLibrary(library);
         return manga;
     }

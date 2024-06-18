@@ -6,7 +6,7 @@ public record MangaDTO(
         String title,
         String author,
         String avatar,
-        String description,
+        String volumeNumber,
         Long libraryId
 ) {
     public static MangaDTO mapFromEntity(Manga manga) {
@@ -15,7 +15,7 @@ public record MangaDTO(
                 manga.getTitle(),
                 manga.getAuthor(),
                 manga.getAvatar(),
-                manga.getDescription(),
+                manga.getVolumeNumber(),
                 manga.getLibrary().getId()
         );
     }
