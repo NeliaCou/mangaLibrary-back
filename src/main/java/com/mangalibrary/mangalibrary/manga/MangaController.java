@@ -44,6 +44,13 @@ public class MangaController {
         return new ResponseEntity<>(mangaDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/title/{title}")
+    public ResponseEntity<List<MangaDTO>> getMangasByTitle(@PathVariable String title) {
+        List<Manga> mangas = mangaService.getMangasByTitle(title);
+        List<MangaDTO> mangaDTOS = mangas.stream().map(MangaDTO::mapFromEntity).toList();
+        return new ResponseEntity<>(mangaDTOS, HttpStatus.OK);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<MangaDTO> createManga(@RequestBody CreateMangaDTO createMangaDTO) {
         Library library = libraryRepository.findById(createMangaDTO.libraryId())

@@ -28,6 +28,10 @@ public class MangaService {
         return mangaRepository.findByLibraryGenre(genre);
     }
 
+    public List<Manga> getMangasByTitle(String title) {
+        return mangaRepository.findByTitleContainingIgnoreCase(title);
+    }
+
     public Manga addManga(Manga manga) {
         return mangaRepository.save(manga);
     }
